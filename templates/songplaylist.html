@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/logo.jpg">
+    <title>Playlist</title>
+    <style>
+        .flashes{
+            animation: fadeOut 6s forwards;
+            text-align: center;
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+        body {
+                font-family: 'Arial', sans-serif;
+                background-color: #dae6f1;
+                margin: 20px;
+            }
+    
+            table {
+                width: 100%;
+                margin-top: 20px;
+                background-color: #ffffff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            th, td {
+                padding: 15px;
+                text-align: left;
+                border-bottom: 1px solid #dee2e6;
+            }
+    
+            th {
+                background-color:black;
+                color: white;
+            }
+    
+            tr:hover {
+                background-color: #f1f1f1;
+            }
+    
+            a {
+                text-decoration: none;
+                color: #007bff;
+                cursor: pointer;
+            }
+    
+            a:hover {
+                text-decoration: underline;
+            }
+    
+            h1{
+                font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }
+    
+            nav {
+                background-color: #333;
+                overflow: hidden;
+                padding: 10px
+            }
+    
+            nav img {
+                width: 50px;
+                height: 50px; 
+                border-radius: 50%; 
+                margin-right: 20px; 
+                margin-left: 15px;
+            }
+            
+            nav a {
+                text-decoration: none;
+                padding: 20px;
+                text-align: center;
+                float: right;
+                color: white;
+            }
+    
+            </style>
+    
+    </head>
+    <body>
+        <nav>
+            <img src="/static/logo.jpg" width="10%">
+            <a href="/logout/{{userid}}"> Logout </a>
+            <a href="/highratedsongs/{{userid}}"> Highly Rated Songs</a>
+            <a href="/creator/{{userid}}"> Creator dashboard</a>
+            <a href="/profile/{{userid}}"> Your Profile </a>
+            <a href="/userdash/{{userid}}">Home</a>
+        </nav>
+
+<div class="flashes">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+            <span class="{{ category }}">{{ message }}</span>
+            {% endfor %}
+            </ul>
+        {%endif%}
+    {%endwith%}
+</div>
+
+{%if s ==[]%}
+<h1> NO CONTENT TO DISPLAY</h1>
+{%else%}
+
+   <i> <h1>{{pllt.Name}}</h1></i>
+    <br>
+    <a href="/editplaylist/{{userid}}/{{pid}}"> Edit Playlist name</a><br>
+
+    
+    <table border = 2>
+        <tr>
+            <th>ID</th>
+            <th> NAME</th>
+            <th> SINGER</th>
+            <th> ACTION 1 </th>
+            <th> ACTION 2</th>
+        </tr>
+        {% for i in s %}
+        <tr>
+            <td> {{loop.index}}</td>
+            <td> {{i.Name}}</td>
+            <td>{{i.Singer}}</td>
+            <td><a href="/songplay/{{i.ID}}/{{userid}}">Play</a></td>
+            <td><a href="/removefrompl/{{userid}}/{{i.ID}}/{{pid}}">Remove this song</a></td>
+        </tr>
+        {%endfor%}
+    </table>
+{%endif%}
+</body>
+</html>
+

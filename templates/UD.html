@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/logo.jpg">
+    <title>User Dashboard </title>
+    <style>
+        .flashes{
+            
+            animation: fadeOut 15s forwards;
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            padding: 10px
+        }
+
+        nav img {
+            width: 50px;
+            height: 50px; 
+            border-radius: 50%; 
+            margin-right: 20px; 
+            margin-left: 15px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            padding: 20px;
+            text-align: center;
+            float: right;
+            color: white;
+        }
+
+        .search {
+            font-size:100px ;
+            position: absolute;
+            top: 100px;
+            right: 10px;
+            text-align: right;
+
+        }
+        .search form {
+            display: flex;
+            align-items: center;
+        }
+    
+        .search input[type="text"] {
+            width: 200px; 
+            padding: 10px; 
+            font-size: 16px; 
+        }
+    
+        .search input[type="submit"] {
+            padding: 10px; 
+            font-size: 16px; 
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #dae6f1;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+      
+        h1{
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+
+        .hoverable-image {
+            margin-left: 10px;
+            margin-top: 16px;
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            overflow: hidden; 
+            margin-bottom: 10px; 
+            transition: transform 0.3s; 
+            border: 5px;
+        }
+        .hoverable-container {
+            width: 120px;
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            margin: 10px;
+            border: 1px solid black;
+            border-radius: 10px; 
+            overflow: hidden; 
+        }
+        .hoverable-container:hover .hoverable-image {
+            transform: scale(1.1); 
+        }
+
+        .hoverable-text {
+            font-size: 16px;
+            color: black;
+        }
+
+       
+        .arrow{
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            margin: 10px;
+            padding: 5px;
+            border: 1px solid black;
+            border-radius: 5px; 
+            overflow: hidden;
+            color: white;
+            background-color:black;
+        }
+        
+        
+      
+    </style>
+</head>
+<body>
+<nav>
+    <img src="/static/logo.jpg" width="10%">
+    <a href="/logout/{{userid}}"> Logout </a>
+    <a href="/highratedsongs/{{userid}}"> Highly Rated Songs</a>
+    <a href="/creator/{{userid}}"> Creator dashboard</a>
+    <a href="/profile/{{userid}}"> Your Profile </a>
+</nav>
+
+<div class="flashes">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+        <span class="{{ category }}">{{ message }}</span>
+        {% endfor %}
+        </ul>
+    {%endif%}
+{%endwith%}
+</div>
+
+    <div class = 'search'>
+    <form action="/userdash/{{userid}}" method ="post">
+        <input type="text" name = 'whattosearch' placeholder="search" required>
+        <input type="submit" value="Search">
+    </form>
+    </div>
+
+
+
+
+    <br>
+
+    <br>
+    <i><h1>SONGS </h1></i>
+ <div class = 'song'> 
+    {%set limit = 5%}
+    {%for i in li %}
+    {%if loop.index <= limit %}
+    <a href="/songplay/{{i.ID}}/{{userid}}">
+        <div class="hoverable-container">
+            <div class="hoverable-image">
+                <img src="/static/play.png" width="90%" alt="Your Image Alt Text">
+            </div>
+            <div class="hoverable-text">
+                <h3>{{i.Name}}</h3>
+            </div>
+        </div>
+
+    </a>{%endif%}{%endfor%}
+    <a href="/allsongs/{{userid}}"> <span class="arrow">Show all songs</span></a>
+</div>
+<br>
+<br>
+
+    <hr>
+
+   <i><h1> GENRES </h1></i>
+
+    <div class = 'genre'> 
+        {%set limit = 5%}
+        {%for i in li  | groupby('Genre')%}
+        {%if loop.index <= limit %}
+        <a href="/genre/{{i.grouper}}/{{userid}}">
+            <div class="hoverable-container">
+                <div class="hoverable-image">
+                    <img src="/static/album.png" width="95%" alt="Your Image Alt Text">
+                </div>
+                <div class="hoverable-text">
+                    <h3>{{i.grouper}}</h3>
+                </div>
+            </div>
+    
+        </a>{%endif%}{%endfor%}
+        <a href="/viewgenre/{{userid}}"><span class="arrow">Show All Genres</span></a>
+        </a>
+    </div>
+    <br>
+    <hr>
+   <i> <h1> ALBUMS </h1></i>
+    <div class = 'album'> 
+        {%set limit = 5%}
+        {%for i in albm%}
+        {%if loop.index <= limit %}
+        <a href="/useralbumsong/{{userid}}/{{i.ID}}">
+            <div class="hoverable-container">
+                <div class="hoverable-image">
+                    <img src="/static/album.png" width="95%" alt="Your Image Alt Text">
+                </div>
+                <div class="hoverable-text">
+                    <h3>{{i.Name}}</h3>
+                </div>
+            </div>
+    
+        </a>{%endif%}{%endfor%}
+        <a href="/useralbum/{{userid}}"><span class="arrow">View all Albums</span></a>
+        
+    </div>
+    <br>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/logo.jpg">
+    <title>Review</title>
+    <style>
+      
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color:#dae6f1;
+                margin: 20px;
+            }
+            
+    
+        
+    
+            form {
+                width: 400px;
+                margin: auto;
+                padding: 20px;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+            }
+            .css{
+                margin-top: 100px;
+            }
+            
+            label {
+                display: block;
+                margin-bottom: 10px;
+                font-size: 16px;
+                color: black;
+            }
+    
+            input[type="range"] {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+    
+            input[type="submit"] {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: black;
+                color: #fff;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+    
+            input[type="submit"]:hover {
+                background-color: black;
+            }
+        
+    </style>
+</head>
+<body>
+    <div class="css">
+
+    <form action="/review/{{sng.ID}}/{{sng.SingerID}}/{{userid}}" method = "post">
+        {%if rvw is not none%}
+        <h2> Edit your Review</h2>
+        <h5> Your previous review was : {{rvw.Review}}</h5>
+        {%endif%}<br>
+        <label for="review"> Your Review (between 0 and 5):</label>
+        <input type="range" id="review" name="review" min="0" max="5">
+        <input type="submit">
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/logo.jpg">
+    <title> Creator Dash</title>
+    <style>
+        .flashes{
+            text-align: center;
+            animation: fadeOut 6s forwards;
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            padding: 10px
+        }
+    
+        nav img {
+            width: 50px;
+            height: 50px; 
+            border-radius: 50%; 
+            margin-right: 20px; 
+            margin-left: 15px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            padding: 20px;
+            text-align: center;
+            float: right;
+            color: white;
+        }
+
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 300px;
+            height: 70px;
+            font-size: 20px;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #dae6f1;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+      
+        h1{
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        
+        table {
+            width: 100%;
+            margin-top: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color:black;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            cursor: pointer;
+        }
+
+
+        .hoverable-image {
+            margin-left: 10px;
+            margin-top: 16px;
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            overflow: hidden; 
+            margin-bottom: 10px; 
+            transition: transform 0.3s; 
+            border: 5px;
+        }
+        .hoverable-container {
+            width: 120px;
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            margin: 10px;
+            border: 1px solid black;
+            border-radius: 10px; 
+            overflow: hidden; 
+        }
+
+        .hoverable-container:hover .hoverable-image {
+            transform: scale(1.1); 
+        }
+
+        .hoverable-text {
+            font-size: 16px;
+            color: black;
+        }
+       
+        .arrow{
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            margin: 10px;
+            padding: 5px;
+            border: 1px solid black;
+            border-radius: 5px; 
+            overflow: hidden;
+            color: white;
+            background-color:black;
+        }
+
+        </style>
+    
+    </head>
+    <body>
+    <nav>
+        <img src="/static/logo.jpg" width="10%">
+        <a href="/logout/{{userid}}"> Logout </a>
+        <a href="/uploadsong/{{userid}}"> Upload Song</a>
+        <a href="/userdash/{{userid}}"> User Dashboard </a>
+    </nav>
+
+<div class="flashes">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+            <span class="{{ category }}">{{ message }}</span>
+            {% endfor %}
+            </ul>
+        {%endif%}
+    {%endwith%}
+</div>
+
+    <i><h1>CREATOR DASHBOARD</h1></i>
+    <hr>
+    <i><h1> DATA </h1></i>
+    <div class="stats-container">
+        <div class="stat-box">
+            No. of Albums created<br>
+            {{alist|length}} <br>
+            <a href="/allalbum/{{userid}}"> All Albums </a>
+        </div>
+
+        <div class="stat-box">
+            No. of songs Uploaded<br>
+            {{slist |length}} <br>
+            <a href="/creatorsongs/{{userid}}">All Songs</a>
+        </div>
+    </div>
+    {%if sdup ==[]%}
+    <h1> NO SONGS UPLOADED </h1>
+    {%else%}
+
+    <br><br>
+    <i><h1>YOUR LATEST UPLOADED SONGS</h1></i>
+    <table border="1">
+        <tr>
+            <th> Sr. No. </th>
+            <th> Song Name </th>
+            <th> Release Date</th>
+            <th> Action </th>
+        </tr>
+        {%set limit = 5%}
+        {% for i in sdup%}
+        {%if loop.index <= limit%}
+        <tr>
+            <td> {{loop.index}}</td>
+            <td> {{i.Name}}</td>
+            <td> {{i.Date}}</td>
+            <td>  <a href='/creatorsplay/{{i.ID}}/{{i.SingerID}}'> Play </a></td>
+            </tr>
+        {%endif%}
+        {%endfor%}
+    </table>
+    {%endif%}
+    
+    <hr><br>
+    {%if albm ==[]%}
+    <h1> NO CONTENT TO DISPLAY</h1>
+    {%else%}
+    <i> <h1> ALBUMS </h1></i>
+    <div class = 'album'> 
+        {%set limit = 5%}
+        {% for i in albm%}
+        {%if loop.index <= limit %}
+        <a href="/albm/{{i.SingerID}}/{{i.ID}}">
+            <div class="hoverable-container">
+                <div class="hoverable-image">
+                    <img src="/static/album.png" width="100%" alt="Your Image Alt Text">
+                </div>
+                <div class="hoverable-text">
+                    <h3>{{i.Name}}</h3>
+                </div>
+            </div>
+    
+        </a>{%endif%}{%endfor%}
+        <a href="/allalbum/{{userid}}"><span class="arrow">View all the Albums</span></a>
+        
+    </div>
+    <br>
+    {%endif%}
+</body>
+</html>

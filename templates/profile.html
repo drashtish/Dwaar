@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/logo.jpg">
+    <title>Profile</title>
+    <style>
+    nav {
+        background-color: #333;
+        overflow: hidden;
+        padding: 10px
+    }
+
+    nav img {
+        width: 50px; 
+        height: 50px; 
+        border-radius: 50%; 
+        margin-right: 20px; 
+        margin-left: 15px;
+    }
+    
+    nav a {
+        text-decoration: none;
+        padding: 20px;
+        text-align: center;
+        float: right;
+        color: white;
+    }
+
+    body {
+            font-family: 'Arial', sans-serif;
+            background-color: #dae6f1;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    h1 {
+        color: black;
+    }
+
+    .hoverable-image {
+        margin-left: 10px;
+        margin-top: 16px;
+        width: 100px; 
+        height: 100px; 
+        border-radius: 50%; 
+        overflow: hidden; 
+        margin-bottom: 10px; 
+        transition: transform 0.3s; 
+        border: 5px;
+    }
+    .hoverable-container {
+        width: 120px;
+        text-align: center;
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        margin: 10px;
+        border: 1px solid black;
+        border-radius: 10px; 
+        overflow: hidden; 
+    }
+
+    .hoverable-container:hover .hoverable-image {
+        transform: scale(1.1); 
+    }
+
+    .hoverable-text {
+        font-size: 16px;
+        color: black;
+    }
+
+   
+    .arrow{
+        text-align: center;
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        margin: 10px;
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: 5px; 
+        overflow: hidden;
+        color: white;
+        background-color:black;
+    }
+    
+    h1 {
+        color: #3498db;
+    }
+    
+    .info-item {
+        margin: 10px 0;
+        font-size: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    /* For adding some spacing between items */
+    .info-item:not(:last-child) {
+        margin-bottom: 20px;
+    }
+
+    </style>
+
+</head>
+<body>
+<nav>
+    <img src="/static/logo.jpg" width="10%">
+    <a href="/logout/{{userid}}"> Logout </a>
+    <a href="/highratedsongs/{{userid}}"> Highly Rated Songs</a>
+    <a href="/creator/{{userid}}"> Creator dashboard</a>
+    <a href="/profile/{{userid}}"> Your Profile </a>
+    <a href="/userdash/{{userid}}">Home</a>
+</nav>
+    <br>
+
+        <i><h1>YOUR INFORMATION</h1></i>
+        <div class="info-item"><b>Name:</b> {{usr.Name}}</div>
+        <div class="info-item"><b>State:</b> {{usr.State}}</div>
+        <div class="info-item"><b>Email:</b> {{usr.Email}}</div>
+
+    <br>
+    <hr><br>
+
+    <i><h1> YOUR PLAYLIST </h1></i>
+
+    <div class = 'playlist'> 
+        {%set limit = 5%}
+        {%for i in pl%}
+        <a href="/playlist/{{userid}}/{{i.ID}}">
+            <div class="hoverable-container">
+                <div class="hoverable-image">
+                    <img src="/static/album.png" width="95%" alt="Your Image Alt Text">
+                </div>
+                <div class="hoverable-text">
+                    <h3>{{i.Name}}</h3>
+                </div>
+            </div>
+    
+        </a>{%endfor%}
+        <a href="/allplaylist/{{userid}}"><span class="arrow">View All Playlists</span></a>
+        </a>
+    </div>
+
+
+</body>
+</html>

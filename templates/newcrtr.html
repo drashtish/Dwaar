@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/logo.jpg">
+    <title>New Creator</title>
+    <style>
+        body {
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        form {
+            margin-top: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .instruction {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        input[type="submit"] {
+            font-size: 48px;
+            width: 100px;
+            height: 100px;
+            border: none;
+            background-color: #3498db;
+            color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color:#dae6f1;
+            margin: 10px;
+        }
+    
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            padding: 10px
+        }
+    
+        nav img {
+            width: 50px;
+            height: 50px; 
+            border-radius: 50%; 
+            margin-right: 20px; 
+            margin-left: 15px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            padding: 20px;
+            text-align: center;
+            float: right;
+            color: white;
+        }
+    
+        </style>
+    
+    </head>
+    <body>
+    <nav>
+        <img src="/static/logo.jpg" width="10%">
+        <a href="/logout/{{userid}}"> Logout </a>
+        <a href="/profile/{{userid}}"> Your Profile </a>
+        <a href="/userdash/{{userid}}">Home</a>
+    </nav>
+    
+    
+    <form action="/newcreator/{{userid}}" method="post">
+        <div class="instruction">Click here to showcase your creations</div>
+        <input type="submit" value="+">
+    </form>
+    
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/logo.jpg">
+    <title> Add to Album </title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color:#dae6f1;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .css{
+            margin-top: 100px;
+
+        }
+
+        input[type="submit"], a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            text-decoration: none;
+            background-color:rgb(37, 30, 30);
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            
+            
+        }
+
+        input[type="submit"]:hover, a:hover {
+            background-color: black;
+            cursor: pointer;
+        }
+        
+        h1{
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .extra{
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="css">
+    <form action="/songtoalbum/{{cid}}/{{sid}}" method="post">
+        <h1>Change album for this Song:</h1>
+        <br>
+        <label>
+        {%for i in albm%}
+        <input type="radio" name = "aname" value = {{i.ID}} {%if i.ID == sng.aID  %} checked {%endif%}> {{i.Name}} <br>
+        {%endfor%}</label>
+        <input type="submit" value="change">
+    </form><br>
+    <div class="extra">
+    <a href="/changesongnewalbum/{{cid}}/{{sid}}"> Add new Album </a></div>
+</div>
+</body>
+</html>

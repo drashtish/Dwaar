@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/logo.jpg">
+    <title>Song Play</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #dae6f1;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: black;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        hr {
+            margin-top: 20px;
+            border-color: #dee2e6;
+        }
+
+        
+        .rev:hover {
+            background-color: black;
+            cursor: pointer;
+            
+        }
+        .add:hover{
+            background-color: black; 
+            cursor: pointer;
+        }
+
+        .all {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        
+        .rev {
+            background-color: rgb(37, 30, 30);
+            color: #fff;
+            padding: 10px;
+            margin-left: 400px;
+            border: 3px solid black; /* Add border */
+            border-radius: 5%;
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+            text-align: center; /* Center text within div */
+        }
+
+        .add {
+            background-color:rgb(37, 30, 30);
+            color: #fff;
+            padding: 10px;
+            margin-right: 400px;
+            border: 3px solid black; /* Add border */
+            border-radius: 5%;
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+            text-align: center; /* Center text within div */
+        }
+        
+        .txt{
+            color: white;
+            
+        }
+
+    
+    .flashes {
+        text-align: center;
+        animation: fadeOut 6s forwards;
+    }
+    
+    @keyframes fadeOut {
+        to {
+            opacity: 0;
+        }
+    }
+
+    nav {
+        background-color: #333;
+        overflow: hidden;
+        padding: 10px
+    }
+
+    nav img {
+        width: 50px;
+        height: 50px; 
+        border-radius: 50%; 
+        margin-right: 20px; 
+        margin-left: 15px;
+    }
+    
+    nav a {
+        text-decoration: none;
+        padding: 20px;
+        text-align: center;
+        float: right;
+        color: white;
+    }
+
+    </style>
+
+</head>
+<body>
+<nav>
+    <img src="/static/logo.jpg" width="10%">
+    <a href="/logout/{{userid}}"> Logout </a>
+    <a href="/highratedsongs/{{userid}}"> Highly Rated Songs</a>
+    <a href="/creator/{{userid}}"> Creator dashboard</a>
+    <a href="/profile/{{userid}}"> Your Profile </a>
+    <a href="/userdash/{{userid}}">Home</a>
+</nav>
+
+
+    <div class="flashes">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+            <span class="{{ category }}">{{ message }}</span>
+            {% endfor %}
+            </ul>
+        {%endif%}
+    {%endwith%}
+</div>
+
+   <b> <h1>{{sng.Name}}</h1></b>
+  
+   
+<hr>
+<p> Singer Name : {{sng.Singer}}</p>
+<p> Genre : {{sng.Genre}}</p>
+<p> Date of Release : {{sng.Date}}</p>
+Average Rating for this song : 
+    {% set sums = namespace(val=0)%}
+    {% set count = namespace(val=0)%}
+            {%for i in rv%}
+                {% set sums.val = sums.val + (i.Review | int) %}
+                {% set count.val = count.val + 1%}
+            {% endfor %}
+    
+            {%if count.val == 0%}
+            No reviews for this Song
+            {%else%}
+             {{sums.val/ count.val }} 
+            {%endif%}
+<hr>
+    
+    <audio src="/static/{{sng.ID}}.mp3" controls="controls"  type="audio/mpeg"></audio>
+    <hr>
+    <div class="all">
+    <div class="rev">
+        
+    {% if rvw is not none %}
+     Your Review is : {{ rvw.Review }} <br>
+    <a href="/review/{{ sng.ID }}/{{ sng.SingerID }}/{{ userid }}"><div class="txt">Edit your Response</div></a>
+    {% else %}
+    <a href="/review/{{ sng.ID }}/{{ sng.SingerID }}/{{ userid }}"><div class="txt">Give your Review</div></a>
+    {% endif %}
+</div> 
+
+
+<div class="add">
+    <a href="/songtoplaylist/{{ userid }}/{{ sng.ID }}"><div class="txt">Add this song to playlist</div></a>
+</div></div>
+
+</body>
+</html>
+
+       
+   
+   

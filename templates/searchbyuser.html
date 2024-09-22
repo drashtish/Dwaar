@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/static/logo.jpg">
+    <title> Search </title>
+    <style>
+        body {
+                font-family: 'Arial', sans-serif;
+                background-color: #dae6f1;
+                margin: 20px;
+            }
+            nav {
+                background-color: #333;
+                overflow: hidden;
+                padding: 10px
+            }
+        
+            nav img {
+                width: 50px; 
+                height: 50px; 
+                border-radius: 50%; 
+                margin-right: 20px; 
+                margin-left: 15px;
+            }
+            
+            nav a {
+                text-decoration: none;
+                padding: 20px;
+                text-align: center;
+                float: right;
+                color: white;
+            }
+
+            table {
+                width: 100%;
+                margin-top: 20px;
+                background-color: #ffffff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            th, td {
+                padding: 15px;
+                text-align: left;
+                border-bottom: 1px solid #dee2e6;
+            }
+    
+            th {
+                background-color:black;
+                color: white;
+            }
+    
+            tr:hover {
+                background-color: #f1f1f1;
+            }
+    
+            a {
+                text-decoration: none;
+                color: #007bff;
+                cursor: pointer;
+            }
+    
+            a:hover {
+                text-decoration: underline;
+            }
+    
+            h1{
+                font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }
+    
+         </style>
+    
+    </head>
+    <body>
+        <nav>
+            <img src="/static/logo.jpg" width="10%">
+            <a href="/logout/{{userid}}"> Logout </a>
+            <a href="/userdash/{{userid}}">Home</a>
+        </nav>
+
+    {%if (findsong!=[] or findalbum!=[] or findgenre!= [] or findsinger!=[] or find==False ) %}
+    <i><h1>Results : </h1></i>
+    <br>
+    <hr>
+    {%if findsong!= []%}
+    <i><h1>Searched Songs </h1></i>
+    <table border="1">
+        <tr>
+            <th> Sr.No.</th>
+            <th> Name </th>
+            <th> Singer Name </th>
+            <th> Action </th>
+        </tr>
+        {% for i in findsong %}
+        <tr>
+            <td> {{loop.index}}</td>
+            <td> {{i.Name}}</td>
+            <td>{{i.Singer}}</td>
+            <td><a href="/songplay/{{i.ID}}/{{userid}}">Play</a></td>
+        </tr>
+        {%endfor%}
+    </table>
+    <br>
+    <hr>
+    {%endif%}
+    {%if findsinger!= []%}
+    <i><h1>Searched Singer Name</h1></i>
+    <table border="1">
+        <tr>
+            <th> Sr.No. </th>
+            <th> Singer Name </th>
+            <th> Creators Songs </th>
+            <th> Creators Albums </th>
+        </tr>
+        {%for i in findsinger %}
+        <tr>
+            <td> {{loop.index}}</td>
+            <td> {{i.Name}}</td>
+            <td> <a href="/searchbysong/{{userid}}/{{i.UserID}}">All Songs</a></td>
+            <td> <a href="/searchbyalbum/{{userid}}/{{i.UserID}}">All Albums </a></td>
+        </tr>
+        {%endfor%}
+    </table>
+    <br>
+    <hr>
+    {%endif%}
+    {%if findgenre != []%}
+
+    <i><h1>Searched Genre Name</h1></i>
+    <table border="1">
+        <tr>
+            <th> Sr.No.</th>
+            <th> Genre Name </th>
+        </tr>
+        {% for i in findgenre %}
+        <tr> 
+            <td> {{loop.index}}</td>
+            <td> <a href="/genre/{{i.Genre}}/{{userid}}"> {{i.Genre}}</a></td>
+        </tr>
+        {%endfor%}
+    </table>
+    <br>
+    <hr>
+    {%endif%}
+    {%if findalbum != []%}
+    <i><h1>Searched Album Name</h1></i>
+    <table border="1">
+        <tr>
+            <th> Sr.No.</th>
+            <th> Album's Name </th>
+        </tr>
+        {%for i in findalbum %}
+        <tr>
+            <td> {{loop.index}}</td>
+            <td> <a href="/useralbumsong/{{userid}}/{{i.ID}}">{{i.Name}}</a></td>
+        </tr>
+        {%endfor%}
+    </table>
+    {%endif%}
+
+    {%else%}
+    No Data Matched
+    {%endif%}
+</body>
+</html>
